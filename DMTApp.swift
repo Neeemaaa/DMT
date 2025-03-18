@@ -6,31 +6,16 @@
 //
 
 import SwiftUI
-import UIKit // Replaced AppKit with UIKit
+import UIKit
 
 @main
 struct MyApp: App {
-    @State private var isSettingsPresented = false // State to control sheet presentation
+    @AppStorage("isDarkMode") private var isDarkMode = false // Read dark mode preference
 
     var body: some Scene {
         WindowGroup {
-            TabView {
-                ContentView()
-                    .tabItem {
-                        Label("Home", systemImage: "house")
-                    }
-                // Removed SettingsView from here
-            }
-            .sheet(isPresented: $isSettingsPresented) {
-                SettingsView() // Present SettingsView as a sheet
-            }
-        }
-        .commands {
-            CommandGroup(replacing: .appSettings) {
-                Button("Settings") {
-                    isSettingsPresented = true // Trigger sheet presentation
-                }
-            }
+            ContentView()
+                .preferredColorScheme(isDarkMode ? .dark : .light) // Apply color scheme
         }
     }
 }
